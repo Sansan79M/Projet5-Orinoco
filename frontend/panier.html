@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="title" content="Orinoco, la boutique d'oursons en peluche">
+  <meta name="description" content="Oursons en peluche, faites main, pour petits et grands">
+  <meta name="author" content="ORINOCO">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow">
+  <link rel="canonical" href="http://www.orinoco.fr/index.html">
+  <link rel="shortcut icon" type="image/png" href="img/favicon.ico">
+
+  <title>ORINOCO, panier de commande</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/panier.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
+      <div class="container">
+
+        <a aria-label="Lien vers la page d'accueil" class="navbar-brand" href="index.html"><img
+            src="img/logo-orinoco-turquoise.png" alt="Logo Orinoco"></a>
+
+        <!--Responsive burger menu-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+          aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a aria-label="Lien vers la page d'accueil" class="nav-link" href="index.html">Accueil
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a aria-label="Lien vers la page conseils d'entretien" class="nav-link" href="#">Conseils</a>
+            </li>
+            <li class="nav-item">
+              <a aria-label="Lien vers la page panier" class="nav-link" href="panier.html">Panier</a>
+            </li>
+            <li class="nav-item">
+              <a aria-label="Lien vers la page du compte client" class="nav-link" href="#">Compte</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- Page Content -->
+  <main id="command">
+    <div class="container">
+      <img class="img-fluid" src="img/logo-orinoco-panier.png" alt="Logo d'Orinoco avec un caddie">
+      <br>
+      <br>
+      <h1>Voici le détail de votre panier.</h1>
+      <br>
+      <br>
+    </div>
+      <div class="container" id="section1">
+        <table id="products">
+          <tr>
+            <th>Référence produit</th>
+            <th>Nom du produit</th>
+            <th>Couleur du produit</th>
+            <th>Total produit</th>
+            <th>Prix du produit</th>
+          </tr>
+          <tr>
+            <td>00001</td>
+            <td>calinou</td>
+            <td>rose</td>
+            <td>1</td>
+            <td>24.99 euros</td>
+          </tr>
+          <tr>
+            <th id="total-amount" colspan="4">Montant total de la commande</th>
+
+            <td class="font-weight-bold">24.99 euros</td>
+          </tr>
+        </table>
+        <br>
+        <br>
+      </div>
+      <div class="container" id="section2">
+        <h2>Veuillez compléter le formulaire pour valider votre commande.</h2>
+        <br>
+        <br>
+        <form method="post" action="mailto:contact@orinoco.fr">
+
+          <div class="form-group row justify-content-center align-items-center">
+            <label for="name" class="col-2 text-left">Nom</label>
+            <input type="text" class="form-control col-3" id="name" name=nom required autofocus>
+            <div class="col-1"></div>
+            <label for="first-name" class="col-2 text-left">Prénom</label>
+            <input type="text" class="form-control col-3" id="first-name" name=prénom required>
+          </div>
+
+          <div class="form-group row justify-content-center align-items-center">
+            <label for="adress" class="col-2 text-left">Adresse</label>
+            <input type="text" class="form-control col-3" id="adress" name=adresse required>
+            <div class="col-1"></div>
+            <label for="postal-code" class="col-2 text-left">Code postal</label>
+            <input type="text" class="form-control col-3" id="postal-code" name=code-postal required maxlength="5"
+              pattern="[0-9]{5}">
+          </div>
+
+          <div class="form-group row justify-content-center align-items-center">
+            <label for="city" class="col-2 text-left">Ville</label>
+            <input type="text" class="form-control col-3" id="city" name=ville required>
+            <div class="col-1"></div>
+            <label for="phone" class="col-2 text-left">Télephone</label>
+            <input type="tel" class="form-control col-3" id="phone" name=téléphone required maxlength="10"
+              pattern="0[1-9][0-9]{8}">
+          </div>
+
+          <div class="form-group row justify-content-center align-items-center">
+            <label for="email" class="col-2 text-left">Email</label>
+            <input type="email" class="form-control col-3" id="email" name=email required>
+            <div class="col-1"></div>
+            <label for="password" class="col-2 text-left">Mot de passe</label>
+            <input type="password" class="form-control col-3" id="password" name=mot-de-passe required>
+          </div>
+        </form>
+        <br>
+        <button type="submit" class="btn btn-info" onclick="window.location.href='confirmation-commande.html/';">Valider
+          votre commande</button>
+    </div>
+  </main>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-3 bg-info ">
+
+    <p class="text-white">Copyright &copy; ORINOCO 2020</p>
+    <nav>
+      <a class="nav-link" aria-label="Lien vers la page des mentions légales" href="#">Mentions légales</a>
+      <a class="nav-link" aria-label="Lien vers la page des conditions de vente" href="#">CGV</a>
+      <a class="nav-link" aria-label="Lien vers la page contact" href="#">Contact</a>
+    </nav>
+
+    <!-- /.container -->
+  </footer>
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="js/panier.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+/******* PAGE : index ***********/
+
+h1{
+    font-size: 20px;
+    text-align: justify;
+}
+
+h2{
+    font-size: 25px;
+}
+  
+h3{
+    font-size: 15px;
+}
+
+#product-list{
+    font-size: 18px;
+}
+
+#product-list a {
+    background-color: #f3e9f1;
+}
+
+.card-body {
+  background-color: #faf3f9;
+}
