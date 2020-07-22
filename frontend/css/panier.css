@@ -8,7 +8,7 @@ h1, h2 {
     font-size: 30px;
 }
 
-#section1 {
+#container2 {
     padding-bottom: 50px;
 }
 
@@ -28,7 +28,7 @@ td, th {
     text-indent: 15px;
 }
 
-#section2 {
+#container3 {
     border:2px solid #17a2b8;
     padding-top: 20px;
     padding-bottom: 20px;
