@@ -24,19 +24,20 @@ xhr.addEventListener('load', function() {
     $main.appendChild($productPage);
   
 
-    //SECTION 1=========================================
+    //SECTION 1
     const $section1 = document.createElement("section");  
-    $section1.setAtribute ("id", "section1");
+    $section1.setAttribute ("id", "section1");
     $productPage.appendChild($section1);
 
     //Image produit : <h2><img></img></h2>
     const $h2 = document.createElement("h2");
+    $section1.appendChild($h2);
+
     const $img = document.createElement("img");
     $img.className = "img-fluid";
-    $img.setAtribute ("id","teddie");
-    $img.setAtribute ("src", teddies[0].imageUrl);
+    $img.setAttribute ("id","teddie");
+    $img.setAttribute ("src", teddies[0].imageUrl);
     $img.setAttribute ("alt", "Ourson");
-    $section1.appendChild($h2);
     $h2.appendChild($img);
     
     //FIN SECTION 1=======================================
@@ -44,7 +45,7 @@ xhr.addEventListener('load', function() {
 
     //SECTION 2 ========================================== 
     const $section2 = document.createElement("section"); 
-    $section2.setAtribute ("id", "section2");
+    $section2.setAttribute ("id", "section2");
     $productPage.appendChild($section2);
 
     //Nom du produit : <h2>
@@ -66,17 +67,18 @@ xhr.addEventListener('load', function() {
     //Référence et prix : <h2 class="font-weight-bold">Réf. - Prix :  euros.</h2>
     const $objectIdPrice = document.createElement("h2");   
     $objectIdPrice.className = "font-weight-bold";
-    $objectIdPrice.innerText = "Réf. " + teddies[0]._id + " - " + teddies[0].price + " euros";
+    $objectIdPrice.innerText = "Réf. " + teddies[0]._id + " - " + "Prix : " + teddies[0].price + " euros";
     $article.appendChild($objectIdPrice);
 
     //Liens vers les conseils <p><a></a></p>
     const $conseil = document.createElement("p");
-    $conseil.innerText = "Pour l'conseil de vos peluches, veuillez consulter notre page";
+    $conseil.innerText = "\nPour l'entretien de vos peluches, veuillez consulter notre page";
     $article.appendChild($conseil);
+
     const $lienConseil = document.createElement("a");
     $lienConseil.className = "font-weight-bold text-info";
     $lienConseil.setAttribute ("href", "conseil.html");
-    $lienConseil.innerText = "conseils."
+    $lienConseil.innerText = " conseils."
     $conseil.appendChild($lienConseil);
 
     //Fin Article---------------------------------------------------
@@ -84,7 +86,7 @@ xhr.addEventListener('load', function() {
     //Information du choix de la couleur
     const $info = document.createElement("p");
     $info.className = "font-weight-bold";
-    $info.innerText = "Choisissez la couleur de votre peluche :\n";//avec un saut de ligne
+    $info.innerText = "\nChoisissez la couleur de votre peluche :\n";
     $section2.appendChild($info);
 
 
@@ -123,7 +125,7 @@ xhr.addEventListener('load', function() {
 
     //Menu déroulant <option>
     const $option = document.createElement("option"); 
-    $option.value (teddies[0].colors);
+    $option.innerText = teddies[0].colors;
     $select.appendChild($option);
 
     //Div form-group col-6
@@ -133,7 +135,7 @@ xhr.addEventListener('load', function() {
     
     //Bouton ajouter au panier 
     const $button = document.createElement("button");
-    $button.type ("submit");
+    $button.setAttribute ("type", "submit");
     $select.className = "btn btn-info";
     $label.innerText = "Ajouter dans votre panier";
     $col6.appendChild($button);   

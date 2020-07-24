@@ -27,7 +27,7 @@
 
     //paragraphe info
     const $info = document.createElement('p');
-    $info.innerText = "Vous allez recevoir dans quelques minutes un mail de confirmation.\n";
+    $info.innerText = "Vous allez recevoir dans quelques minutes un mail de confirmation.\n\n";
     $section.appendChild($info);
 
     //Réf - prix commande--------------------------
@@ -44,31 +44,20 @@
     const $orderPrice = document.createElement('span');
     $orderPrice.className = "font-weight-bold";
     $orderPrice.setAttribute ("id", "order-number");
-    $orderElement.appendChild($orderPrice);
-
     $orderElement.innerText = "Veuillez trouver votre de numéro de commande : " + ($orderNumber.innerText = " ? ") + ", d'un montant de " + ($orderPrice.innerText = " ? ") + " euros.\n Vous trouverez tous les élements de votre commande dans votre compte client.";
+    $orderElement.appendChild($orderPrice);
 
     //Fin Réf - prix commande--------------------------
 
 
-
-
-
-
     //Retour à l'accueil
     const $returnHomePage = document.createElement('p');
+    $returnHomePage.innerText = "Pour revenir à la page d'"
     $section.appendChild($returnHomePage);
 
     const $backLink = document.createElement('a');
     $backLink.setAttribute ("aria-label", "Lien vers la page d'accueil");
     $backLink.setAttribute ("href", "index.html");
- 
+    $backLink.innerText = "accueil."
     $returnHomePage.appendChild($backLink);
 
-   
-
-    //$returnHomePage.innerText = "Pour revenir à la page d'" + $backLink + "accueil."; 
-    $returnHomePage.innerText = "Pour revenir à la page d'" + (($backLink.innerText = "accueil.").setAttribute ("href", "index.html"));
-    //$returnHomePage.innerText = "Pour revenir à la page d'" + (($backLink.setAttribute("href", "index.html")).innerText = "accueil.");
-    
- 

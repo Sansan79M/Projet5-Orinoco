@@ -26,7 +26,7 @@ $container1.appendChild($imgLogo);
 
 //H1 Titre de la page
 const $title = document.createElement('h1');
-$title.innerText = "\n\nVoici le détail de votre panier.\n\n";
+$title.innerText = "\nVoici le détail de votre panier.\n\n";
 $container1.appendChild($title);
 
 //Fin Container1-------------------------------
@@ -78,8 +78,8 @@ const $td5 = document.createElement('td');
 
 $td1.innerText = teddies[0]._id;
 $td2.innerText = teddies[0].name;
-$td3.innerText = teddies[0].color;
-$td4.innerText = teddies[0];
+$td3.innerText = teddies[0].color; //manque la couleur
+$td4.innerText = teddies[0].object; //manque le chiffre 1
 $td5.innerText = teddies[0].price + " euros";
 
 $tr2.appendChild($td1);
@@ -104,7 +104,12 @@ $td6.className = "font-weight-bold";
 $td6.innerText = teddies[0].price + " euros";
 $tr3.appendChild($td6);
 
+//Saut de ligne
+const $lineBreak1 = document.createElement('br');
+$container2.appendChild($lineBreak1);
+
 //Fin Container2-------------------------------
+
 
 //Div container3-------------------------------
 const $container3 = document.createElement('div');
@@ -137,7 +142,9 @@ $rowFields1.appendChild($name);
 
 //input nom
 const $nameField = document.createElement('input');
-$nameField.setAttribute (("type", "text"), ("id", "name"), ("name", "nom"), ("required"), ("autofocus"));
+$nameField.setAttribute ("type", "text"), ("id", "name"), ("name", "nom");
+$nameField.setAttribute ("required", "");
+$nameField.setAttribute  ("autofocus", "");
 $nameField.className = "form-control col-3";
 $rowFields1.appendChild($nameField);
 
@@ -155,7 +162,8 @@ $rowFields1.appendChild($firstName);
 
 //input prénom
 const $firstNameField = document.createElement('input');
-$firstNameField.setAttribute (("type", "text"), ("id", "first-name"), ("name", "prénom"), ("required"));
+$firstNameField.setAttribute ("type", "text"), ("id", "first-name"), ("name", "prénom");
+$firstNameField.setAttribute ("required", "");
 $firstNameField.className = "form-control col-3";
 $rowFields1.appendChild($firstNameField);
 
@@ -176,7 +184,8 @@ $rowFields2.appendChild($adress);
 
 //input adresse
 const $adressField = document.createElement('input');
-$adressField.setAttribute (("type", "text"), ("id", "adress"), ("name", "adresse"), ("required"));
+$adressField.setAttribute ("type", "text"), ("id", "adress"), ("name", "adresse");
+$adressField.setAttribute ("required", "");
 $adressField.className = "form-control col-3";
 $rowFields2.appendChild($adressField);
 
@@ -194,7 +203,10 @@ $rowFields2.appendChild($postalCode);
 
 //input code postal 
 const $postalCodeField = document.createElement('input');
-$postalCodeField.setAttribute (("type", "text"), ("id", "postal-code"), ("name", "code-postal"), ("required"), ("maxlength", "5"), ("pattern", "[0-9]{5}"));
+$postalCodeField.setAttribute ("type", "text"), ("id", "postal-code"), ("name", "code-postal");  
+$postalCodeField.setAttribute ("required", ""); 
+$postalCodeField.setAttribute ("maxlength", "5");
+$postalCodeField.setAttribute ("pattern", "[0-9]{5}");
 $postalCodeField.className = "form-control col-3";
 $rowFields2.appendChild($postalCodeField);
 
@@ -215,7 +227,8 @@ $rowFields3.appendChild($city);
 
 //input ville 
 const $cityField = document.createElement('input');
-$cityField.setAttribute (("type", "text"), ("id", "city"), ("name", "ville"), ("required"));
+$cityField.setAttribute ("type", "text"), ("id", "city"), ("name", "ville"); 
+$cityField.setAttribute ("required", "");
 $cityField.className = "form-control col-3";
 $rowFields3.appendChild($cityField);
 
@@ -233,7 +246,10 @@ $rowFields3.appendChild($phone);
 
 //input téléphone  
 const $phoneField = document.createElement('input');
-$phoneField.setAttribute (("type", "tel"), ("id", "phone"), ("name", "téléphone"), ("required"), ("maxlength", "10"), ("pattern", "0[1-9][0-9]{8}"));
+$phoneField.setAttribute ("type", "tel"), ("id", "phone"), ("name", "téléphone");
+$phoneField.setAttribute ("required", "");
+$phoneField.setAttribute ("maxlength", "10");
+$phoneField.setAttribute ("pattern", "0[1-9][0-9]{8}");
 $phoneField.className = "form-control col-3";
 $rowFields3.appendChild($phoneField);
 
@@ -254,7 +270,8 @@ $rowFields4.appendChild($email);
 
 //input email
 const $emailField = document.createElement('input');
-$emailField.setAttribute (("type", "email"), ("id", "email"), ("name", "email"), ("required"));
+$emailField.setAttribute ("type", "email"), ("id", "email"), ("name", "email");
+$emailField.setAttribute ("required", "");
 $emailField.className = "form-control col-3";
 $rowFields4.appendChild($emailField);
 
@@ -272,11 +289,16 @@ $rowFields4.appendChild($password);
 
 //input mot de passe  
 const $passwordField = document.createElement('input');
-$passwordField.setAttribute (("type", "password"), ("id", "password"), ("name", "mot-de-passe"), ("required"));
+$passwordField.setAttribute ("type", "password"), ("id", "password"), ("name", "mot-de-passe"); 
+$passwordField.setAttribute ("required", "");
 $passwordField.className = "form-control col-3";
 $rowFields4.appendChild($passwordField);
 
 //Fin 4eme ligne de champ----------------------------------------------
+
+//Saut de ligne
+const $lineBreak2 = document.createElement('br');
+$container3.appendChild($lineBreak2);
 
 //Bouton---------
 const $button = document.createElement('button'); 
