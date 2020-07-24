@@ -24,7 +24,7 @@ xhr.addEventListener('load', function() {
     $main.appendChild($productPage);
   
 
-    //SECTION 1
+    //SECTION 1=============================================
     const $section1 = document.createElement("section");  
     $section1.setAttribute ("id", "section1");
     $productPage.appendChild($section1);
@@ -51,7 +51,7 @@ xhr.addEventListener('load', function() {
     //Nom du produit : <h2>
     const $name = document.createElement("h2");
     $name.className = "font-weight-bold";
-    $name.innerText = teddies[0].name;
+    $name.innerText = "\n\n" + teddies[0].name;
     $section2.appendChild($name);
 
 
@@ -72,12 +72,12 @@ xhr.addEventListener('load', function() {
 
     //Liens vers les conseils <p><a></a></p>
     const $conseil = document.createElement("p");
-    $conseil.innerText = "\nPour l'entretien de vos peluches, veuillez consulter notre page";
+    $conseil.innerText = "\n\nPour l'entretien de vos peluches, veuillez consulter notre page";
     $article.appendChild($conseil);
 
     const $lienConseil = document.createElement("a");
     $lienConseil.className = "font-weight-bold text-info";
-    $lienConseil.setAttribute ("href", "conseil.html");
+    $lienConseil.setAttribute ("href", "conseils.html");
     $lienConseil.innerText = " conseils."
     $conseil.appendChild($lienConseil);
 
@@ -125,7 +125,7 @@ xhr.addEventListener('load', function() {
 
     //Menu déroulant <option>
     const $option = document.createElement("option"); 
-    $option.innerText = teddies[0].colors;
+    $option.innerText = teddies[0].colors[0];
     $select.appendChild($option);
 
     //Div form-group col-6
@@ -136,8 +136,8 @@ xhr.addEventListener('load', function() {
     //Bouton ajouter au panier 
     const $button = document.createElement("button");
     $button.setAttribute ("type", "submit");
-    $select.className = "btn btn-info";
-    $label.innerText = "Ajouter dans votre panier";
+    $button.className = "btn btn-info";
+    $button.innerText = "Ajouter dans votre panier";
     $col6.appendChild($button);   
 
     //Fin du formulaire----------------------------

@@ -144,9 +144,12 @@ $rowFields1.appendChild($name);
 const $nameField = document.createElement('input');
 $nameField.setAttribute ("type", "text"), ("id", "name"), ("name", "nom");
 $nameField.setAttribute ("required", "");
-$nameField.setAttribute  ("autofocus", "");
+
 $nameField.className = "form-control col-3";
 $rowFields1.appendChild($nameField);
+
+//let $autofocus = document.querySelector('input').autofocus = true;
+//$nameField.appendChild($autofocus);
 
 //div col-1 espace
 const $space1 = document.createElement('div');
@@ -307,4 +310,5 @@ $button.className = "btn btn-info";
 $button.innerText = "Valider votre commande";
 $container3.appendChild($button);
 
+$nameField.focus();
 });
