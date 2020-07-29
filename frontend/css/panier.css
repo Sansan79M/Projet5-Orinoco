@@ -12,10 +12,10 @@ h1, h2 {
     padding-bottom: 50px;
 }
 
-table {
+/*table {
     border-collapse: collapse;
     margin : auto;
-}
+}*/
 
 td, th {
     border : 2px solid #17a2b8;
@@ -37,7 +37,7 @@ td, th {
 
 
 @media all and (max-width: 576px) {
-    th, td, label{
+    th, td, label {
         font-size: 0.9rem;
     }
     h1 {
@@ -46,6 +46,7 @@ td, th {
     h2 {
         font-size: 1.3rem;
     }
+   
 }
 
 

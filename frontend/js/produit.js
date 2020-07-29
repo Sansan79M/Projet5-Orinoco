@@ -1,32 +1,38 @@
+//Récupération du backend
 const xhr = new XMLHttpRequest();
 
 xhr.open('GET', 'http://localhost:3000/api/teddies');
 
 xhr.send();
 
-xhr.addEventListener('load', function() {
+xhr.addEventListener('load', function () {
     console.log(JSON.parse(xhr.responseText));
     const teddies = JSON.parse(xhr.responseText);
 
+    localStorage.getItem(teddies);
+    console.log(localStorage);
+
+    //Récupération de l'élément parent de produit.html
     //Corps de la page : main
     const $main = document.querySelector('main');
+
 
     //H1 Titre de la page
     const $h1 = document.createElement('h1');
     $h1.className = "font-weight-bold";
-    $h1.innerText = "Norbert notre tête en l'air !\n\n";
+    $h1.innerText = teddies[0].name + "\n\n";
     $main.appendChild($h1);
 
     //Div container : Page produit
-    const $productPage = document.createElement('div'); 
-    $productPage.setAttribute ("id", "product-page")
-    $productPage.className =  "container";
+    const $productPage = document.createElement('div');
+    $productPage.setAttribute("id", "product-page")
+    $productPage.className = "container";
     $main.appendChild($productPage);
-  
+
 
     //SECTION 1=============================================
-    const $section1 = document.createElement("section");  
-    $section1.setAttribute ("id", "section1");
+    const $section1 = document.createElement("section");
+    $section1.setAttribute("id", "section1");
     $productPage.appendChild($section1);
 
     //Image produit : <h2><img></img></h2>
@@ -35,17 +41,17 @@ xhr.addEventListener('load', function() {
 
     const $img = document.createElement("img");
     $img.className = "img-fluid";
-    $img.setAttribute ("id","teddie");
-    $img.setAttribute ("src", teddies[0].imageUrl);
-    $img.setAttribute ("alt", "Ourson");
+    $img.setAttribute("id", "teddie");
+    $img.setAttribute("src", teddies[0].imageUrl);
+    $img.setAttribute("alt", "Ourson");
     $h2.appendChild($img);
-    
+
     //FIN SECTION 1=======================================
 
 
     //SECTION 2 ========================================== 
-    const $section2 = document.createElement("section"); 
-    $section2.setAttribute ("id", "section2");
+    const $section2 = document.createElement("section");
+    $section2.setAttribute("id", "section2");
     $productPage.appendChild($section2);
 
     //Nom du produit : <h2>
@@ -58,14 +64,14 @@ xhr.addEventListener('load', function() {
     //Article----------------------------------------
     const $article = document.createElement("article");
     $section2.appendChild($article);
-    
+
     //Description produit <p>
     const $description = document.createElement("p");
     $description.innerText = teddies[0].description;
     $article.appendChild($description);
 
     //Référence et prix : <h2 class="font-weight-bold">Réf. - Prix :  euros.</h2>
-    const $objectIdPrice = document.createElement("h2");   
+    const $objectIdPrice = document.createElement("h2");
     $objectIdPrice.className = "font-weight-bold";
     $objectIdPrice.innerText = "Réf. " + teddies[0]._id + " - " + "Prix : " + teddies[0].price + " euros";
     $article.appendChild($objectIdPrice);
@@ -77,12 +83,12 @@ xhr.addEventListener('load', function() {
 
     const $lienConseil = document.createElement("a");
     $lienConseil.className = "font-weight-bold text-info";
-    $lienConseil.setAttribute ("href", "conseils.html");
+    $lienConseil.setAttribute("href", "conseils.html");
     $lienConseil.innerText = " conseils."
     $conseil.appendChild($lienConseil);
 
     //Fin Article---------------------------------------------------
-	
+
     //Information du choix de la couleur
     const $info = document.createElement("p");
     $info.className = "font-weight-bold";
@@ -101,7 +107,7 @@ xhr.addEventListener('load', function() {
     $inline.className = "form-inline";
     $form.appendChild($inline);
 
-    //Div form-group col-2
+    /*//Div form-group col-2
     const $col2 = document.createElement("div");
     $col2.className = "form-group col-2 text-left";
     $inline.appendChild($col2);
@@ -110,40 +116,50 @@ xhr.addEventListener('load', function() {
     const $label = document.createElement("label");    
     $label.setAttribute ("for", "color")
     $label.innerText = "Couleur";
-    $col2.appendChild($label);
+    $col2.appendChild($label);*/
 
-    //Div form-group col-3
-    const $col3 = document.createElement("div");
-    $col3.className = "form-group col-3";
-    $inline.appendChild($col3);
+    //Div form-group col-8 col-lg-6
+    const $col8 = document.createElement("div");
+    $col8.className = "form-group col-8 col-lg-6";
+    $inline.appendChild($col8);
 
     //Menu déroulant <select>
-    const $select = document.createElement("select"); 
-    $select.setAttribute ("id", "color");
+    const $select = document.createElement("select");
+    $select.setAttribute("id", "color");
     $select.className = "form-control";
-    $col3.appendChild($select);
+    $col8.appendChild($select);
 
-    //Menu déroulant <option>
-    const $option = document.createElement("option"); 
-    $option.innerText = teddies[0].colors[0];
-    $select.appendChild($option);
+    //Ajouter toutes les couleurs au menu déroulant
+    const colors = teddies[0].colors;
+    for (let x = 0; x < colors.length; x++) {
+        console.log(colors[x]);
 
-    //Div form-group col-6
-    const $col6 = document.createElement("div");
-    $col6.className = "form-group col-6";
-    $inline.appendChild($col6);
-    
+        //Menu déroulant <option>
+        const $option = document.createElement("option");
+        $option.setAttribute("value", x);
+        $option.innerText = colors[x];
+        $select.appendChild($option);
+    }
+
+    //Div form-group col-10 col-lg-6
+    const $col10 = document.createElement("div");
+    $col10.className = "form-group col-10 col-lg-6";
+    $inline.appendChild($col10);
+
     //Bouton ajouter au panier 
     const $button = document.createElement("button");
-    $button.setAttribute ("type", "submit");
+    $button.setAttribute("type", "submit");
     $button.className = "btn btn-info";
     $button.innerText = "Ajouter dans votre panier";
-    $col6.appendChild($button);   
+    $col10.appendChild($button);
+
+    //Focus sur le menu déroulant
+    $select.focus();
 
     //Fin du formulaire----------------------------
 
     //FIN SECTION 2=====================================
-   
+
 
 
 });

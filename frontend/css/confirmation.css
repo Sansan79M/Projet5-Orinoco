@@ -12,4 +12,10 @@
   h1{
     font-size: 30px;
   }
+
+  @media all and (max-width: 576px) {
+    h1{
+      font-size: 1.3em;
+    }
+  }
  

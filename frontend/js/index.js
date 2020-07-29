@@ -1,3 +1,4 @@
+//Récupération du backend
 const xhr = new XMLHttpRequest();
 
 xhr.open('GET', 'http://localhost:3000/api/teddies');
@@ -8,13 +9,19 @@ xhr.addEventListener('load', function() {
     console.log(JSON.parse(xhr.responseText));
     const teddies = JSON.parse(xhr.responseText);
 
+    //Stocker en local les éléments du backend
+    const objectTeddies = JSON.stringify(teddies);
+    localStorage.setItem("obj", objectTeddies);
+    console.log(localStorage);
+   
+
     //Récupération des éléments parents de index.html
     const $productList = document.querySelector('#product-list');//Liste des produits à gauche
     const $carouselInner = document.querySelector('.carousel-inner');//Carousel d'image à droite
     const $carouselIndicators = document.querySelector('.carousel-indicators'); //Carousel indicator(tirets)
     const $productCard = document.querySelector('#product-card'); //Carte produit 
     
-
+    //Boucle permettant d'insérer tous les éléments du backend
     for (let i = 0; i < teddies.length; i++) {
         console.log(teddies[i]);
 
@@ -49,9 +56,8 @@ xhr.addEventListener('load', function() {
         const $carouselSlide = document.createElement('li');
         $carouselSlide.setAttribute ("data-target", "#carouselExampleIndicators");
         $carouselSlide.setAttribute ("data-slide-to", i); 
-        $carouselSlide.className;
         if (i === 0) {
-            $carouselSlide.className += "active";
+            $carouselSlide.className = "active";
         } 
         $carouselIndicators.appendChild($carouselSlide);
       

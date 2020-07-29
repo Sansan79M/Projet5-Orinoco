@@ -9,7 +9,7 @@
 
     //Image logo panier
     const $imgLogo = document.createElement('img');
-    $imgLogo.className = "imgLogo-fluid";
+    $imgLogo.className = "img-fluid";
     $imgLogo.setAttribute ("src", "img/logo-orinoco-panier.png");
     $imgLogo.setAttribute ("alt", "Logo d'Orinoco avec un caddie");
     $container.appendChild($imgLogo);
@@ -39,9 +39,7 @@
     function random(min,max){
         return min+Math.floor(Math.random()*(max-min+1));
     }
-    
-    for(let i=0;i<1;i++){
-     
+      
     //Réf commande
     const $orderNumber = document.createElement('span');
     $orderNumber.className = "font-weight-bold";
@@ -49,19 +47,20 @@
     $orderNumber.innerText = random(0000001,9999999);
     $orderElement1.appendChild($orderNumber);
 
-    }
-    
+
+    //Annonce le montant 
     const $orderElement2 = document.createElement('span');
     $orderElement2.innerText = ", d'un montant de ";
     $orderElement1.appendChild($orderElement2);
 
-    //Prix commande
+    //Montant de la commande
     const $orderPrice = document.createElement('span');
     $orderPrice.className = "font-weight-bold";
     $orderPrice.setAttribute ("id", "order-price");
     $orderPrice.innerText = " 2900 ";
     $orderElement1.appendChild($orderPrice);
 
+    //Devise du prix
     const $orderElement3 = document.createElement('span');
     $orderElement3.innerText = " euros.";
     $orderElement1.appendChild($orderElement3);
