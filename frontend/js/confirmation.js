@@ -1,4 +1,3 @@
-
     //Main
     const $confirm = document.querySelector('#confirm');
 
@@ -48,6 +47,9 @@
     $orderElement1.appendChild($orderNumber);
 
 
+    //Récupération du montant du panier
+    const basket = localStorage.getItem("basket");
+
     //Annonce le montant 
     const $orderElement2 = document.createElement('span');
     $orderElement2.innerText = ", d'un montant de ";
@@ -57,13 +59,13 @@
     const $orderPrice = document.createElement('span');
     $orderPrice.className = "font-weight-bold";
     $orderPrice.setAttribute ("id", "order-price");
-    $orderPrice.innerText = " 2900 ";
+    $orderPrice.innerText = basket;
     $orderElement1.appendChild($orderPrice);
 
     //Devise du prix
-    const $orderElement3 = document.createElement('span');
-    $orderElement3.innerText = " euros.";
-    $orderElement1.appendChild($orderElement3);
+    //const $orderElement3 = document.createElement('span');
+    //$orderElement3.innerText = " euros.";
+    //$orderElement1.appendChild($orderElement3);
     
     //Fin Réf - prix commande--------------------------
 

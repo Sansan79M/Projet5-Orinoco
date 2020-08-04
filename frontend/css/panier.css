@@ -12,10 +12,9 @@ h1, h2 {
     padding-bottom: 50px;
 }
 
-/*table {
-    border-collapse: collapse;
+table {
     margin : auto;
-}*/
+}
 
 td, th {
     border : 2px solid #17a2b8;
