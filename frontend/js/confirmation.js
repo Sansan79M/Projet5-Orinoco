@@ -1,3 +1,15 @@
+//Récupération des infos du panier
+/*const teddie_id = JSON.parse(localStorage.getItem("product_value_teddies"));
+
+ajaxGet('http://localhost:3000/api/teddies/' + orderId).then(function (result) {
+    displayOrder(result);
+}).catch(function (error) {
+    console.log(error);
+    alert("Une erreur est survenue, veuillez réessayer dans un moment");
+});*/
+
+function displayOrder(order) {
+
     //Main
     const $confirm = document.querySelector('#confirm');
 
@@ -20,7 +32,7 @@
 
     //titre H1 
     const $title = document.createElement('h1');
-    $title.innerText = "Nous vous remercions pour votre achat, votre commande à été validée avec succès.\n\n";
+    $title.innerText = "Nous vous remercions pour votre achat, votre commande a été validée avec succès.\n\n";
     $section.appendChild($title);
 
     //paragraphe info
@@ -31,24 +43,21 @@
 
     //Réf - prix commande--------------------------
     const $orderElement1 = document.createElement('p');
-    $orderElement1.innerText = "Veuillez trouver votre de numéro de commande : ";
+    $orderElement1.innerText = "Veuillez trouver votre numéro de commande : ";
     $section.appendChild($orderElement1);
 
-    //Réf commande aléatoire
-    function random(min,max){
-        return min+Math.floor(Math.random()*(max-min+1));
-    }
-      
+    //Récupération de la référence commande
+    const orderId = localStorage.getItem("orderId");
+
     //Réf commande
     const $orderNumber = document.createElement('span');
     $orderNumber.className = "font-weight-bold";
-    $orderNumber.setAttribute ("id", "order-number");
-    $orderNumber.innerText = random(0000001,9999999);
+    $orderNumber.innerText = orderId;
     $orderElement1.appendChild($orderNumber);
 
 
     //Récupération du montant du panier
-    const basket = localStorage.getItem("basket");
+    const basketAmount = localStorage.getItem("basket-amount");
 
     //Annonce le montant 
     const $orderElement2 = document.createElement('span');
@@ -59,7 +68,7 @@
     const $orderPrice = document.createElement('span');
     $orderPrice.className = "font-weight-bold";
     $orderPrice.setAttribute ("id", "order-price");
-    $orderPrice.innerText = basket;
+    $orderPrice.innerText = basketAmount + ".";
     $orderElement1.appendChild($orderPrice);
 
     //Devise du prix
@@ -94,4 +103,11 @@
     $backLink.setAttribute ("href", "index.html");
     $backLink.innerText = "accueil" + "."
     $returnHomePage.appendChild($backLink);
+
+    //Fin de la commande, suppression des informations
+    $backLink.addEventListener('click', localStorage.clear());
+    
     //Fin Retour à l'accueil---------------------------------
+
+
+}

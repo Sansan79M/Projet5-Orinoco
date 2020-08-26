@@ -25,13 +25,14 @@ h2{
     margin-bottom: 150px;
 }
 
-article{
+p{
     text-align: justify;
 }
 
-label{
-    width: 30px;
+#quantity{
+    margin-left: 30px;
 }
+
 
 
 /*MEDIA QUERIES FOOTER*/

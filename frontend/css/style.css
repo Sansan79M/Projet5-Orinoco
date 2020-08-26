@@ -27,6 +27,12 @@ footer a
   color: white;
 }
 
+td img {
+  
+  height : 80px;
+}
+
+
 
 /*MEDIA QUERIES FOOTER*/
 @media all and (max-width: 576px) {

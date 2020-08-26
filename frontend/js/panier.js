@@ -1,11 +1,15 @@
-//Récupération du localStorage de l'index pour affichage de la page produit choisie
-const productOrder = JSON.parse(localStorage.getItem("chosen_product"));
-console.log(productOrder);
+//Récupération des infos produits
+const storage = JSON.parse(localStorage.getItem("product_value_teddies"));
 
+
+
+
+//Récupération de l'élément parent de panier.html    
 //Corps de la page : Main
 const $command = document.querySelector('#command');
 
-//div container1------------------------------
+
+//div container1---------------------------------------
 const $container1 = document.createElement('div');
 $container1.className = "container";
 $container1.setAttribute("id", "container1");
@@ -23,9 +27,10 @@ const $title = document.createElement('h1');
 $title.innerText = "\nVoici le détail de votre panier.\n\n";
 $container1.appendChild($title);
 
-//Fin Container1-------------------------------
+//Fin Container1------------------------------------------
 
-//Div container2-------------------------------
+
+//Div container2 : PANIER-------------------------------
 const $container2 = document.createElement('div');
 $container2.className = "container";
 $container2.setAttribute("id", "container2")
@@ -41,90 +46,168 @@ const $table = document.createElement('table');
 $table.setAttribute("id", "shopping-cart");
 $tableResponsive.appendChild($table);
 
-//1ere ligne du tableau <tr>
-const $tr1 = document.createElement('tr');
-$table.appendChild($tr1);
+function setTableHeader() {
+    //1ere ligne d'entête du tableau <tr>¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
+    const $tr1 = document.createElement('tr');
+    $tr1.setAttribute("id", "basket-header")
+    $table.appendChild($tr1);
+    $tr1.innerHTML +=
+        `<th>Photo</th>
+     <th>Référence</th>
+     <th>Nom</th>
+     <th>Couleur</th>
+     <th>Nombre</th>
+     <th>Prix unitaire</th>
+     <th>Prix total</th>
+     <th>Supprimer</th>
+    `
+}
 
-//Les champs de la 1ere ligne du tableau <th>
-const $th1 = document.createElement('th');
-const $th2 = document.createElement('th');
-const $th3 = document.createElement('th');
-const $th4 = document.createElement('th');
-const $th5 = document.createElement('th');
+//Lignes des produits commandés <tr>¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
+let totalA = 0;
+let totalQ = 0;
 
-$th1.innerText = "Référence produit";
-$th2.innerText = "Nom du produit";
-$th3.innerText = "Couleur du produit";
-$th4.innerText = "Total produit";
-$th5.innerText = "Prix unitaire du produit";
+function setTableBody() {
 
-$tr1.appendChild($th1);
-$tr1.appendChild($th2);
-$tr1.appendChild($th3);
-$tr1.appendChild($th4);
-$tr1.appendChild($th5);
+    for (let i = 0; i < storage.orders.length; i++) {
+        const product = storage.orders[i];
+        const subtotal = (product.price / 100) * product.quantity;
+        totalA += subtotal;
 
-//2eme ligne du tableau <tr>
-const $tr2 = document.createElement('tr');
-$table.appendChild($tr2);
+        const $tr = document.createElement('tr');
+        $table.appendChild($tr);
 
-//Les champs de la 2eme ligne du tableau <td>
-const $td1 = document.createElement('td');
-const $td2 = document.createElement('td');
-const $td3 = document.createElement('td');
-const $td4 = document.createElement('td');
-const $td5 = document.createElement('td');
+        $tr.innerHTML +=
+        `<td><img src="${product.imageUrl}"></td>
+         <td>${product._id}</td>
+         <td>${product.name}</td>
+         <td>${product.color}</td>
+         <td>${product.quantity}</td>
+         <td>${product.price / 100} euros</td>
+         <td>${subtotal} euros</td>`
 
-$td1.innerText = productOrder._id;
-$td2.innerText = productDetails.name;
-$td3.innerText = productColors.value;
-$td4.innerText = productQuantity.value;
-$td5.innerText = productDetails.price + " euros";
+        const $trash = document.createElement('td');
+        $trash.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        $tr.appendChild($trash);
 
-$tr2.appendChild($td1);
-$tr2.appendChild($td2);
-$tr2.appendChild($td3);
-$tr2.appendChild($td4);
-$tr2.appendChild($td5);
+        if (product.quantity > 0) {
+            totalQ += parseInt(product.quantity);
+        }
+
+        //Suppression d'un article
+        $trash.addEventListener('click', () => {
+            if (confirm("Voulez-vous vraiment supprimer l'article ?")) {
+                const index = storage.orders.findIndex(element => element._id === product._id);
+                storage.orders.splice(index, 1); //supprime l'article de l'index
+                $table.removeChild($tr); //supprime la ligne produit
+                totalA -= subtotal; //refait le total du montant de la commande
+                $totalAmount.innerText = `${totalA} euros`; //affiche le nouveau montant total
+                localStorage.setItem("product_value_teddies", JSON.stringify(storage)); //supprime l'article choisi du localStorage
+                totalQ -= parseInt(product.quantity); //refait le total du nombre d'articles
+                $numberProducts.innerText = `${totalA}`; //affiche le nouveau nombre total d'articles
+
+                if (setTableBody = "null") {
+                    deleteCartAndForm()
+                }
+            }
+        });
 
 
-//3eme ligne du tableau <tr>
-const $tr3 = document.createElement('tr');
-$table.appendChild($tr3);
+    }
+}
 
-//champs de la 3eme ligne du tableau 
-const $th6 = document.createElement('th');
-$th6.setAttribute("id", "total-amount");
-$th6.setAttribute("colspan", "4");
-$th6.innerText = "Montant total de la commande";
-$tr3.appendChild($th6);
+//Dernière ligne du tableau <tr>¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
 
-const $td6 = document.createElement('td');
-$td6.className = "font-weight-bold";
-$td6.innerText = number(productQuantity.value)*number(productDetails.price);
-$tr3.appendChild($td6);
+function setTableFooter(totalA) {
 
-//Stocker en local le montant de la commande
-localStorage.setItem("basket", $td6.innerText);
+    const $tr3 = document.createElement('tr');
+    $tr3.setAttribute("id", "total-basket-amount")
+    $table.appendChild($tr3);
+
+    //Champs de la 3eme ligne du tableau 
+    const $numberAndAmount = document.createElement('th');
+    $numberAndAmount.setAttribute("id", "numberAndAmount");
+    $numberAndAmount.setAttribute("colspan", "4");
+    $numberAndAmount.innerText = "Nombre d'articles  &  montant total de la commande";
+    $tr3.appendChild($numberAndAmount);
+
+    //Nombre de produits au total
+    const $numberProducts = document.createElement('td');
+    $numberProducts.className = "font-weight-bold";
+    $numberProducts.innerText = `${totalQ}`;
+    $tr3.appendChild($numberProducts);
+
+    //Champ vide entre le nombre et le montant
+    $tr3.appendChild($emptyFields = document.createElement('td'));
+
+    //Montant de la commande
+    const $totalAmount = document.createElement('td');
+    $totalAmount.className = "font-weight-bold";
+    $totalAmount.innerText = `${totalA} euros`;
+    $tr3.appendChild($totalAmount);
+
+    //Stocker en local le montant de la commande
+    localStorage.setItem("basket-amount", $totalAmount.innerText);
+}
+
+//On appelle les fonctions du tableau
+setTableHeader();
+setTableBody();
+setTableFooter(totalA);
+
+//FIN DU TABLEAU PANIER-----------------------------------------
 
 //Saut de ligne
-const $lineBreak1 = document.createElement('br');
-$container2.appendChild($lineBreak1);
+$container2.appendChild($lineBreak1 = document.createElement('br'));
+
+//Bouton pour continuer les achats
+const $continuePurchaseButton = document.createElement('a');
+$continuePurchaseButton.className = "btn btn-info";
+$continuePurchaseButton.setAttribute("type", "button")
+$continuePurchaseButton.setAttribute("aria-label", "Bouton retour vers la page d'accueil");
+$continuePurchaseButton.setAttribute("id", "continue");
+$continuePurchaseButton.setAttribute("href", "index.html");
+$continuePurchaseButton.innerText = "Continuer mes achats";
+$container2.appendChild($continuePurchaseButton);
 
 //Bouton suppression panier
 const $deleteCartButton = document.createElement('button');
-$deleteCartButton.setAttribute(("type", "submit"), ("onclick", "clear"));
-$deleteCartButton.setAttribute("type", "reset");
-$deleteCartButton.setAttribute("action", "remove");
 $deleteCartButton.className = "btn btn-info";
+$deleteCartButton.setAttribute("type", "button")
+$deleteCartButton.setAttribute("aria-label", "Bouton suppression du panier");
+$deleteCartButton.setAttribute("id", "stop");
 $deleteCartButton.innerText = "Supprimer le panier";
 $container2.appendChild($deleteCartButton);
 
-//Suppression du localStorage du panier
-localStorage.clear;
+//Demande de confirmation de suppression du panier
+$deleteCartButton.addEventListener('click', function deleteCartAndForm() {
+    if (confirm('Voulez-vous vraiment supprimer le panier ?')) {
+
+        $title.innerHTML = "<br>Votre panier est vide !<br><br>";//modification du titre
+        $title.style.fontSize = "30px";//fontSize du titre
+        $title.style.color = "red";//couleur du titre
+
+        $table.innerHTML = ""; //suppression complète de la table
+        setTableHeader(); //afficher le header du panier
+        setTableFooter(0); //afficher le footer du panier avec un montant et un total produit à 0 euros
+
+        storage.orders = []; //suppression du n° de commande
+
+        localStorage.setItem("product_value_teddies", JSON.stringify(storage));//suppression du localStorage
+
+        $continuePurchaseButton.style.display = "none"; //suppression du bouton retour à l'accueil
+        $deleteCartButton.style.display = "none"; //suppression du bouton suppression panier
+
+        $h2.innerHTML = ""; //suppression du h2
+        $form.innerHTML = `<a aria-label="Lien vers la page d'accueil" href="index.html">
+        Cliquez ici pour retourner sur la page d'accueil.</a>`; //remplacement du formulaire par un message de retour à l'accueil
+        $form.style.fontSize = "30px";//fontSize du nouveau <a>
+
+    }
+});
 
 
-//Fin Container2-------------------------------
+//Fin Container2---------------------------------------------------------------
 
 
 //Div container3-------------------------------
@@ -139,10 +222,7 @@ $h2.innerText = "Veuillez compléter le formulaire pour valider votre commande.\
 $container3.appendChild($h2);
 
 //Formulaire******************************************
-const $form = document.createElement('form');
-$form.setAttribute("method", "post");
-$form.setAttribute("action", "mailto:contact@orinoco.fr");
-$container3.appendChild($form);
+$container3.appendChild($form = document.createElement('form'));
 
 //1ere ligne de champ----------------------------------------------
 const $rowFields1 = document.createElement('div');
@@ -150,24 +230,22 @@ $rowFields1.className = "form-group row justify-content-center align-items-cente
 $form.appendChild($rowFields1);
 
 //label nom 
-const $name = document.createElement('label');
-$name.setAttribute("for", "name")
-$name.className = "col-2 text-left";
-$name.innerText = "Nom";
-$rowFields1.appendChild($name);
+const $lastName = document.createElement('label');
+$lastName.setAttribute("for", "name")
+$lastName.className = "col-2 text-left";
+$lastName.innerText = "Nom";
+$rowFields1.appendChild($lastName);
 
 //input nom
-const $nameField = document.createElement('input');
-$nameField.setAttribute("type", "text"), ("id", "name"), ("name", "nom");
-$nameField.setAttribute("required", "");
+const $LastNameField = document.createElement('input');
+$LastNameField.setAttribute("type", "text");
+$LastNameField.setAttribute("id", "name"), ("name", "nom");
+$LastNameField.setAttribute("required", "");
+$LastNameField.className = "form-control col-3";
+$rowFields1.appendChild($LastNameField);
 
-$nameField.className = "form-control col-3";
-$rowFields1.appendChild($nameField);
-
-//div col-1 espace
-const $space1 = document.createElement('div');
-$space1.className = "col-1";
-$rowFields1.appendChild($space1);
+//div col-1 espace entre 2 champs
+$rowFields1.appendChild($space1 = document.createElement('div')).className = "col-1";
 
 //label prénom 
 const $firstName = document.createElement('label');
@@ -178,7 +256,8 @@ $rowFields1.appendChild($firstName);
 
 //input prénom
 const $firstNameField = document.createElement('input');
-$firstNameField.setAttribute("type", "text"), ("id", "first-name"), ("name", "prénom");
+$firstNameField.setAttribute("type", "text");
+$firstNameField.setAttribute("id", "first-name"), ("name", "prénom");
 $firstNameField.setAttribute("required", "");
 $firstNameField.className = "form-control col-3";
 $rowFields1.appendChild($firstNameField);
@@ -192,23 +271,22 @@ $rowFields2.className = "form-group row justify-content-center align-items-cente
 $form.appendChild($rowFields2);
 
 //label adresse 
-const $adress = document.createElement('label');
-$adress.setAttribute("for", "adress")
-$adress.className = "col-2 text-left";
-$adress.innerText = "Adresse";
-$rowFields2.appendChild($adress);
+const $address = document.createElement('label');
+$address.setAttribute("for", "adress")
+$address.className = "col-2 text-left";
+$address.innerText = "Adresse";
+$rowFields2.appendChild($address);
 
 //input adresse
-const $adressField = document.createElement('input');
-$adressField.setAttribute("type", "text"), ("id", "adress"), ("name", "adresse");
-$adressField.setAttribute("required", "");
-$adressField.className = "form-control col-3";
-$rowFields2.appendChild($adressField);
+const $addressField = document.createElement('input');
+$addressField.setAttribute("type", "text");
+$addressField.setAttribute("id", "adress"), ("name", "adresse");
+$addressField.setAttribute("required", "");
+$addressField.className = "form-control col-3";
+$rowFields2.appendChild($addressField);
 
-//div col-1 espace
-const $space2 = document.createElement('div');
-$space2.className = "col-1";
-$rowFields2.appendChild($space2);
+//div col-1 espace entre 2 champs
+$rowFields2.appendChild($space2 = document.createElement('div')).className = "col-1";
 
 //label code postal 
 const $postalCode = document.createElement('label');
@@ -219,7 +297,8 @@ $rowFields2.appendChild($postalCode);
 
 //input code postal 
 const $postalCodeField = document.createElement('input');
-$postalCodeField.setAttribute("type", "text"), ("id", "postal-code"), ("name", "code-postal");
+$postalCodeField.setAttribute("type", "text");
+$postalCodeField.setAttribute("id", "postal-code"), ("name", "code-postal");
 $postalCodeField.setAttribute("required", "");
 $postalCodeField.setAttribute("maxlength", "5");
 $postalCodeField.setAttribute("pattern", "[0-9]{5}");
@@ -243,15 +322,15 @@ $rowFields3.appendChild($city);
 
 //input ville 
 const $cityField = document.createElement('input');
-$cityField.setAttribute("type", "text"), ("id", "city"), ("name", "ville");
+$cityField.setAttribute("type", "text");
+$cityField.setAttribute("id", "city"), ("name", "ville");
 $cityField.setAttribute("required", "");
 $cityField.className = "form-control col-3";
 $rowFields3.appendChild($cityField);
 
-//div col-1 espace
-const $space3 = document.createElement('div');
-$space3.className = "col-1";
-$rowFields3.appendChild($space3);
+//div col-1 espace entre 2 champs
+$rowFields3.appendChild($space3 = document.createElement('div')).className = "col-1";
+
 
 //label téléphone
 const $phone = document.createElement('label');
@@ -262,7 +341,8 @@ $rowFields3.appendChild($phone);
 
 //input téléphone  
 const $phoneField = document.createElement('input');
-$phoneField.setAttribute("type", "tel"), ("id", "phone"), ("name", "téléphone");
+$phoneField.setAttribute("type", "tel");
+$phoneField.setAttribute("id", "phone"), ("name", "téléphone");
 $phoneField.setAttribute("required", "");
 $phoneField.setAttribute("maxlength", "10");
 $phoneField.setAttribute("pattern", "0[1-9][0-9]{8}");
@@ -280,21 +360,21 @@ $form.appendChild($rowFields4);
 //label email
 const $email = document.createElement('label');
 $email.setAttribute("for", "email")
+$email.setAttribute("pattern", "/^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/");
 $email.className = "col-2 text-left";
 $email.innerText = "Email";
 $rowFields4.appendChild($email);
 
 //input email
 const $emailField = document.createElement('input');
-$emailField.setAttribute("type", "email"), ("id", "email"), ("name", "email");
+$emailField.setAttribute("type", "email");
+$emailField.setAttribute("id", "email"), ("name", "email");
 $emailField.setAttribute("required", "");
 $emailField.className = "form-control col-3";
 $rowFields4.appendChild($emailField);
 
-//div col-1 espace
-const $space4 = document.createElement('div');
-$space4.className = "col-1";
-$rowFields4.appendChild($space4);
+//div col-1 espace entre 2 champs
+$rowFields4.appendChild($space4 = document.createElement('div')).className = "col-1";
 
 //label mot de passe
 const $password = document.createElement('label');
@@ -305,23 +385,91 @@ $rowFields4.appendChild($password);
 
 //input mot de passe  
 const $passwordField = document.createElement('input');
-$passwordField.setAttribute("type", "password"), ("id", "password"), ("name", "mot-de-passe");
+$passwordField.setAttribute("type", "password");
+$passwordField.setAttribute("id", "password"), ("name", "mot-de-passe");
 $passwordField.setAttribute("required", "");
+$passwordField.setAttribute("maxlength", "8");
+$passwordField.setAttribute("placeholder", "8 caractères");
 $passwordField.className = "form-control col-3";
 $rowFields4.appendChild($passwordField);
 
 //Fin 4eme ligne de champ----------------------------------------------
 
-//Saut de ligne
-const $lineBreak2 = document.createElement('br');
-$container3.appendChild($lineBreak2);
-
-//Bouton---------
-const $button = document.createElement('button');
-$button.setAttribute(("type", "submit"), ("onclick", "window.location.href='confirmation-commande.html/';"));
-$button.className = "btn btn-info";
-$button.innerText = "Valider votre commande";
-$container3.appendChild($button);
-
 //Focus sur le 1er champ à remplir
-$nameField.focus();
+$LastNameField.focus();
+
+//Saut de ligne
+$form.appendChild($lineBreak2 = document.createElement('br'));
+
+//Bouton de validation de commande --------------------------------
+const $validationButton = document.createElement('button');
+$validationButton.className = "btn btn-info";
+$validationButton.setAttribute("type", "submit");
+$validationButton.innerText = "Valider votre commande";
+$form.appendChild($validationButton);
+
+
+
+//Sauvegarder le formulaire de commande ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
+$form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    [$LastNameField, $firstNameField, $addressField, $cityField, $emailField].forEach(function (field) {
+        if (field.value.trim().length < 1) {
+            alert("Tous les champs du formulaire doivent être correctement remplis");
+            return;
+        }
+    });
+
+    function getOrdersId() {
+        const ids = [];
+        storage.orders.forEach(order => {
+            for (let i = 0; i < order.quantity; i++) {
+                ids.push(order._id);
+            }
+        });
+        return ids;
+    }
+
+    window.location.href = "confirmation-commande.html";
+
+    //Envoi du formulaire de commande au serveur ¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
+    const req = new XMLHttpRequest();
+    req.open("POST", "http://localhost:3000/api/teddies/order");
+    req.setRequestHeader("Content-Type", "application/json");
+
+    const data = {
+        contact: {
+            firstName: $firstNameField.value,
+            lastName: $LastNameField.value,
+            address: $addressField.value,
+            city: $cityField.value,
+            email: $emailField.value
+        },
+        products: getOrdersId()
+    };
+
+    req.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 201) {
+                console.log(JSON.parse(this.responseText));
+            } else {
+                console.log("Statut : " + this.status);
+            }
+        }
+    }
+    req.send(JSON.stringify(data));
+    
+    //récupérer l'ID de la commande
+    for (orderId in obj) {
+        console.log(orderId);
+    }
+    localStorage.setItem("orderId", Object.values(orderId));
+});
+
+
+
+
+
+
+
+

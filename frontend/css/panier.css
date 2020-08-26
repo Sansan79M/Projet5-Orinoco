@@ -22,15 +22,17 @@ td, th {
     font-size: 20px;
 }
 
-#total-amount {
-    text-align : left;
-    text-indent: 15px;
-}
 
 #container3 {
     border:2px solid #17a2b8;
     padding-top: 20px;
     padding-bottom: 20px;
+    margin-bottom: 10px;
+}
+#continue, #stop {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 

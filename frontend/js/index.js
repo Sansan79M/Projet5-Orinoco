@@ -1,14 +1,12 @@
-//Récupération du backend
-const xhr = new XMLHttpRequest();
+//Récupération de l'API
+ajaxGet('http://localhost:3000/api/teddies').then(function (result) {
+    displayTeddies(result);
+}).catch(function (error) {
+    console.log(error);
+    alert("Une erreur est survenue, veuillez réessayer dans un moment");
+});
 
-xhr.open('GET', 'http://localhost:3000/api/teddies');
-
-xhr.send();
-
-xhr.addEventListener('load', function () {
-    console.log(JSON.parse(xhr.responseText));
-    const teddies = JSON.parse(xhr.responseText);
-
+function displayTeddies(teddies) {
 
     //Récupération des éléments parents de index.html
     const $productList = document.querySelector('#product-list');//Liste des produits à gauche
@@ -19,16 +17,28 @@ xhr.addEventListener('load', function () {
 
     //Boucle permettant d'insérer tous les éléments du backend
     for (let i = 0; i < teddies.length; i++) {
+        const teddie = teddies[i];
         console.log(teddies[i]);
 
 
         //Stocker en local les éléments du backend
         const saveToLocalStorage = () => {
-            const storageObj = JSON.stringify(teddies[i]);
+            let data = localStorage.getItem("product_value_teddies")
+            if (!data) {
+                data = {
+                    selectedId: "",
+                    orders: []
+                }
+            } else {
+                data = JSON.parse(data);
+            }
+            data.selectedId = teddie._id;
+            const storageObj = JSON.stringify(data);
             localStorage.setItem("product_value_teddies", storageObj);
             console.log(saveToLocalStorage);
         }
 
+        
         //Liste des produits à gauche 
         const $list = document.createElement("a");
         $list.setAttribute("aria-label", "Lien vers la page produit");
@@ -113,7 +123,7 @@ xhr.addEventListener('load', function () {
 
         //Prix des articles
         const $price = document.createElement("h3");
-        $price.innerText = teddies[i].price + " euros";
+        $price.innerText = (teddies[i].price / 100) + " euros";
         $cardBody.appendChild($price);
 
         //Références des articles
@@ -128,52 +138,8 @@ xhr.addEventListener('load', function () {
         //FIN Cartes articles=============================================
 
 
-
-        //Stocker en local les éléments du backend
-
-        /*const productName = teddies[i].name;
-        localStorage.setItem("name", productName);
-        
-        const productId = teddies[i]._id;
-        localStorage.setItem("id", productId);
-    
-        const productPrice = teddies[i].price;
-        localStorage.setItem("price", productPrice);
-
-        const productDescription = teddies[i].description;
-        localStorage.setItem("description", productDescription);
-        
-        const productColors = teddies[i].colors;
-        localStorage.setItem("color", productColors);
-
-        const productImg = teddies[i].imageUrl;
-        localStorage.setItem("img", productImg);*/
-
-        /*$list.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const productName = teddies[i].name.value;
-            const productId = teddies[i]._id.value;
-            const productPrice = teddies[i].price.value;
-            const productDescription = teddies[i].description.value;
-            const productColors = teddies[i].colors.value;
-            const productImg = teddies[i].imageUrl.value;
-
-            const products = {
-                name: productName,
-                id: productId,
-                price:productPrice,
-                description:productDescription,
-                colors:productColors,
-                img:productImg
-            };*/
-
-
-
-
-        //});
-
-
     }
 
-});
 
+
+}
