@@ -1,14 +1,4 @@
-//Récupération des infos du panier
-/*const teddie_id = JSON.parse(localStorage.getItem("product_value_teddies"));
-
-ajaxGet('http://localhost:3000/api/teddies/' + orderId).then(function (result) {
-    displayOrder(result);
-}).catch(function (error) {
-    console.log(error);
-    alert("Une erreur est survenue, veuillez réessayer dans un moment");
-});*/
-
-function displayOrder(order) {
+function displayOrder() {
 
     //Main
     const $confirm = document.querySelector('#confirm');
@@ -21,13 +11,13 @@ function displayOrder(order) {
     //Image logo panier
     const $imgLogo = document.createElement('img');
     $imgLogo.className = "img-fluid";
-    $imgLogo.setAttribute ("src", "img/logo-orinoco-panier.png");
-    $imgLogo.setAttribute ("alt", "Logo d'Orinoco avec un caddie");
+    $imgLogo.setAttribute("src", "img/logo-orinoco-panier.png");
+    $imgLogo.setAttribute("alt", "Logo d'Orinoco avec un caddie");
     $container.appendChild($imgLogo);
-    
+
     //Section
     const $section = document.createElement('section');
-    $section.setAttribute ("id", "text-confirm");
+    $section.setAttribute("id", "text-confirm");
     $container.appendChild($section);
 
     //titre H1 
@@ -52,22 +42,32 @@ function displayOrder(order) {
     //Réf commande
     const $orderNumber = document.createElement('span');
     $orderNumber.className = "font-weight-bold";
-    $orderNumber.innerText = orderId;
+    $orderNumber.innerText = orderId + ",";
     $orderElement1.appendChild($orderNumber);
 
+    const $dateOrder = document.createElement('span');
+    $dateOrder.innerText = "\n en date du ";
+    $orderElement1.appendChild($dateOrder);
+
+    //Affichage de la date et l'heure
+    let date = new Date();
+    const $today = document.createElement('span');
+    $today.className = "font-weight-bold";
+    $today.innerText = date.toLocaleString("fr-FR") + ",";
+    $orderElement1.appendChild($today);
 
     //Récupération du montant du panier
     const basketAmount = localStorage.getItem("basket-amount");
 
     //Annonce le montant 
     const $orderElement2 = document.createElement('span');
-    $orderElement2.innerText = ", d'un montant de ";
+    $orderElement2.innerText = " d'un montant de ";
     $orderElement1.appendChild($orderElement2);
 
     //Montant de la commande
     const $orderPrice = document.createElement('span');
     $orderPrice.className = "font-weight-bold";
-    $orderPrice.setAttribute ("id", "order-price");
+    $orderPrice.setAttribute("id", "order-price");
     $orderPrice.innerText = basketAmount + ".";
     $orderElement1.appendChild($orderPrice);
 
@@ -75,7 +75,7 @@ function displayOrder(order) {
     //const $orderElement3 = document.createElement('span');
     //$orderElement3.innerText = " euros.";
     //$orderElement1.appendChild($orderElement3);
-    
+
     //Fin Réf - prix commande--------------------------
 
 
@@ -85,11 +85,11 @@ function displayOrder(order) {
     $section.appendChild($orderInformation);
 
     const $orderInformationLink = document.createElement('a');
-    $orderInformationLink.setAttribute ("aria-label", "Lien vers la page du compte client");
-    $orderInformationLink.setAttribute ("href", "#");
+    $orderInformationLink.setAttribute("aria-label", "Lien vers la page du compte client");
+    $orderInformationLink.setAttribute("href", "#");
     $orderInformationLink.innerText = "compte client.\n\n"
     $orderInformation.appendChild($orderInformationLink);
-    
+
     //Fin Retrouver la commande----------------------------
 
 
@@ -99,15 +99,17 @@ function displayOrder(order) {
     $section.appendChild($returnHomePage);
 
     const $backLink = document.createElement('a');
-    $backLink.setAttribute ("aria-label", "Lien vers la page d'accueil");
-    $backLink.setAttribute ("href", "index.html");
+    $backLink.setAttribute("aria-label", "Lien vers la page d'accueil");
+    $backLink.setAttribute("href", "index.html");
     $backLink.innerText = "accueil" + "."
     $returnHomePage.appendChild($backLink);
 
     //Fin de la commande, suppression des informations
     $backLink.addEventListener('click', localStorage.clear());
-    
+
     //Fin Retour à l'accueil---------------------------------
 
 
 }
+
+displayOrder();

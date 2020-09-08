@@ -28,7 +28,7 @@ function displayProductDetails(productDetails) {
     $main.appendChild($productPage);
 
 
-    //SECTION 1 Image =============================================
+    //SECTION 1 : Image à gauche ==================================================================================
     const $section1 = document.createElement("section");
     $section1.setAttribute("id", "section1");
     $productPage.appendChild($section1);
@@ -44,10 +44,10 @@ function displayProductDetails(productDetails) {
     $img.setAttribute("alt", "Ourson");
     $h2.appendChild($img);
 
-    //FIN SECTION 1 Image =======================================
+    //FIN SECTION 1 : Image à gauche ================================================================================
 
 
-    //SECTION 2 ========================================== 
+    //SECTION 2 : partie droite ============================================================================ 
     const $section2 = document.createElement("section");
     $section2.setAttribute("id", "section2");
     $productPage.appendChild($section2);
@@ -94,7 +94,7 @@ function displayProductDetails(productDetails) {
     $section2.appendChild($info);
 
 
-    //Formulaire-----------------------------------------------
+    //Formulaire-----------------------------------------------------------------------------------
     const $form = document.createElement("form");
     $section2.appendChild($form);
 
@@ -179,7 +179,7 @@ function displayProductDetails(productDetails) {
     $AddToCartButton.className = "btn btn-info";
     $AddToCartButton.setAttribute("aria-label", "Bouton ajouter au panier");
     $AddToCartButton.setAttribute("type", "submit"),
-    $AddToCartButton.innerText = "Ajouter dans votre panier";
+        $AddToCartButton.innerText = "Ajouter dans votre panier";
     $col10.appendChild($AddToCartButton);
 
     //Ajouter un article dans la page panier
@@ -187,7 +187,10 @@ function displayProductDetails(productDetails) {
         e.preventDefault();
         let data = JSON.parse(localStorage.getItem("product_value_teddies"));
 
+        //Trouve l'index du produit dans le fichier JSON
         const index = data.orders.findIndex(productTeddie => productTeddie._id == productDetails._id);
+
+        //Si l'index n'est pas déjà dans le panier, ajouter l'article 
         if (index == -1) {
             data.orders.push({
                 imageUrl: productDetails.imageUrl,
@@ -197,7 +200,7 @@ function displayProductDetails(productDetails) {
                 quantity: $selectQuantity.value,
                 price: productDetails.price,
             });
-        } else {
+        } else {//sinon si l'article est déjà présent dans le panier, calculer le rajout dans la même ligne
             const newColor = parseInt(data.orders[index].color) + parseInt($selectColors.value);
             data.orders[index].color = newColor;
 
@@ -205,8 +208,11 @@ function displayProductDetails(productDetails) {
             data.orders[index].quantity = newQuantity;
         };
 
+
+        //Stocker l'ajout de l'article
         localStorage.setItem("product_value_teddies", JSON.stringify(data));
 
+        //Demande de direction de page
         if (confirm('Voulez-vous voir votre panier ?')) {
             window.location.href = 'panier.html';
         } else if (confirm('Voulez-vous retourner sur le catalogue ?')) {
@@ -217,9 +223,9 @@ function displayProductDetails(productDetails) {
 
     //Fin BOUTON Ajouter au panier=======================================
 
-//Fin du formulaire------------------------------------------------
+    //Fin du formulaire----------------------------------------------------------------------------
 
-//FIN SECTION 2=====================================
+    //FIN SECTION 2 : partie droite ======================================================================
 
 
 }
