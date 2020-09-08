@@ -77,6 +77,7 @@ function setTableBody() {
         //Calcul le nombre total d'articles, à chaque ajout d'une ligne produit
         totalQuantity += parseInt(product.quantity);
 
+
         //Calcul le montant total de la commande à chaque ajout d'une ligne produit
         totalOrder += subtotal;
 
@@ -107,24 +108,36 @@ function setTableBody() {
 
             if (confirm("Voulez-vous vraiment supprimer l'article ?")) {
 
-                const index = storage.orders.findIndex(element => element._id === product._id);
-                storage.orders.splice(index, 1); //supprime l'article de l'index
-                $table.removeChild($tr); //supprime la ligne produit
+                const index = storage.orders.findIndex(element => element._id === product._id && element.color === product.color);
+                storage.orders.splice(index, 1); //supprime l'article choisi de l'index
+                $table.removeChild($tr); //supprime la ligne produit choisie
 
-                //Récupération des constantes
-                setTableFooter($numberProducts, $totalAmount);
+                //Récupération des constantes du setTableFooter, par leur id html
+                const $numberProducts = document.querySelector("#numberProducts");
+                const $totalAmount = document.querySelector("#totalAmount");
 
                 totalQuantity -= parseInt(product.quantity); //refait le total du nombre d'articles
-                console.log(totalQuantity); //vérification du nombre
+                console.log(totalQuantity); //vérification du nombre 
                 $numberProducts.innerText = `${totalQuantity}`; //affiche le nouveau nombre total d'articles
 
                 totalOrder -= subtotal; //refait le total du montant de la commande
                 console.log(totalOrder);//vérification du montant
                 $totalAmount.innerText = `${totalOrder} euros`; //affiche le nouveau montant total de la commande
 
+                //setTableFooter(totalOrder,totalQuantity);
                 localStorage.setItem("product_value_teddies", JSON.stringify(storage)); //Ré-enregistre le localStorage
 
+
+                 //S'il n'y a plus de ligne produit, suppression du formulaire et affiche que le panier est vide
+                while (totalQuantity === 0 && totalOrder === 0) {
+                //deleteCartAndForm();
+                $title.innerHTML = "<br>Votre panier est vide !<br><br>";//modification du titre
+            $title.style.fontSize = "30px";//fontSize du titre
+            $title.style.color = "red";//couleur du titre
+
             }
+            }
+           
         });
 
 
@@ -150,6 +163,7 @@ function setTableFooter(totalOrder, totalQuantity) {
     //Nombre de produits au total
     const $numberProducts = document.createElement('td');
     $numberProducts.className = "font-weight-bold";
+    $numberProducts.id = "numberProducts";
     $numberProducts.innerText = `${totalQuantity}`;
     $tr3.appendChild($numberProducts);
 
@@ -159,19 +173,16 @@ function setTableFooter(totalOrder, totalQuantity) {
     //Montant de la commande
     const $totalAmount = document.createElement('td');
     $totalAmount.className = "font-weight-bold";
+    $totalAmount.id = "totalAmount";
     $totalAmount.innerText = `${totalOrder} euros`;
     $tr3.appendChild($totalAmount);
-
-    //Stocker en local le montant de la commande
-    localStorage.setItem("basket-amount", $totalAmount.innerText);
-
 
 }
 
 //On appelle les 3 fonctions du tableau
 
 setTableHeader();
-setTableBody(totalOrder, totalQuantity);
+setTableBody();
 setTableFooter(totalOrder, totalQuantity);
 
 //FIN DU TABLEAU PANIER-----------------------------------------
@@ -182,9 +193,9 @@ $container2.appendChild($lineBreak1 = document.createElement('br'));
 //Bouton pour continuer les achats
 const $continuePurchaseButton = document.createElement('a');
 $continuePurchaseButton.className = "btn btn-info";
+$continuePurchaseButton.id = "continue";
 $continuePurchaseButton.setAttribute("type", "button")
 $continuePurchaseButton.setAttribute("aria-label", "Bouton retour vers la page d'accueil");
-$continuePurchaseButton.setAttribute("id", "continue");
 $continuePurchaseButton.setAttribute("href", "index.html");
 $continuePurchaseButton.innerText = "Continuer mes achats";
 $container2.appendChild($continuePurchaseButton);
@@ -192,15 +203,15 @@ $container2.appendChild($continuePurchaseButton);
 //Bouton suppression panier
 const $deleteCartButton = document.createElement('button');
 $deleteCartButton.className = "btn btn-info";
+$deleteCartButton.id = "stop";
 $deleteCartButton.setAttribute("type", "button")
 $deleteCartButton.setAttribute("aria-label", "Bouton suppression du panier");
-$deleteCartButton.setAttribute("id", "stop");
 $deleteCartButton.innerText = "Supprimer le panier";
 $container2.appendChild($deleteCartButton);
 
 
 //Demande de confirmation de suppression du panier
-$deleteCartButton.addEventListener('click', function () {
+$deleteCartButton.addEventListener('click', () => {
     if (confirm('Voulez-vous vraiment supprimer le panier ?')) {
 
         var deleteCartAndForm = () => {
@@ -228,11 +239,7 @@ $deleteCartButton.addEventListener('click', function () {
     }
 });
 
-//S'il n'y a pas de ligne produit, suppression du formulaire et affiche que le panier est vide
-while (setTableBody == -1) {
-    deleteCartAndForm();
 
-}
 
 //Fin Container2 : PANIER -------------------------------------------------------------------------------------------
 
@@ -548,7 +555,7 @@ $form.addEventListener('submit', (e) => {
             if (this.status === 201) {
                 console.log(JSON.parse(this.responseText));
 
-                //Récupération du numéro de commande et le stocker
+                //Récupération du numéro de commande et le stocker en local pour la confirmation
                 console.log(JSON.parse(this.responseText).orderId);
                 localStorage.setItem("orderId", JSON.parse(this.responseText).orderId);
                 window.location.href = "confirmation-commande.html";
@@ -559,6 +566,10 @@ $form.addEventListener('submit', (e) => {
     }
     //Envoi au serveur les éléments du formulaire et les ID des articles commandés
     req.send(JSON.stringify(data));
+
+    //Stocker en local le montant de la commande pour la confirmation
+    const $totalAmount = document.querySelector("#totalAmount");
+    localStorage.setItem("basket-amount", $totalAmount.innerText);
 
 });
 

@@ -129,6 +129,7 @@ function displayProductDetails(productDetails) {
         //option couleur
         const $optionColors = document.createElement("option");
         $optionColors.innerText = productColors[x];
+        $optionColors.value = productColors[x];
         $selectColors.appendChild($optionColors);
     }
 
@@ -191,8 +192,9 @@ function displayProductDetails(productDetails) {
         const index = data.orders.findIndex(productTeddie => productTeddie._id == productDetails._id);
 
         //Si l'index n'est pas déjà dans le panier, ajouter l'article 
-        if (index == -1) {
+        if (index == -1 || data.orders[index].color != $selectColors.value) {
             data.orders.push({
+
                 imageUrl: productDetails.imageUrl,
                 _id: productDetails._id,
                 name: productDetails.name,
@@ -200,15 +202,17 @@ function displayProductDetails(productDetails) {
                 quantity: $selectQuantity.value,
                 price: productDetails.price,
             });
-        } else {//sinon si l'article est déjà présent dans le panier, calculer le rajout dans la même ligne
-            const newColor = parseInt(data.orders[index].color) + parseInt($selectColors.value);
-            data.orders[index].color = newColor;
+        } else {
+           
+                const newColor = $selectColors.value;
+                data.orders[index].color = newColor;
 
-            const newQuantity = parseInt(data.orders[index].quantity) + parseInt($selectQuantity.value);
-            data.orders[index].quantity = newQuantity;
-        };
+                const newQuantity = parseInt(data.orders[index].quantity) + parseInt($selectQuantity.value);
+                data.orders[index].quantity = newQuantity;
+            
+        }
 
-
+        console.log(data);
         //Stocker l'ajout de l'article
         localStorage.setItem("product_value_teddies", JSON.stringify(data));
 
