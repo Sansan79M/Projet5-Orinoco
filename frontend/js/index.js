@@ -1,27 +1,26 @@
 //Récupération de l'API
-ajaxGet('http://localhost:3000/api/teddies').then(function (result) {
+ajaxGet("http://localhost:3000/api/teddies").then(function (result) {
     displayTeddies(result);
 }).catch(function (error) {
     console.log(error);
     alert("Une erreur est survenue, veuillez réessayer dans un moment");
 });
 
+//Affichage dynamique de la page
 function displayTeddies(teddies) {
 
     //Récupération des éléments parents de index.html
-    const $productList = document.querySelector('#product-list');//Liste des produits à gauche
-    const $carouselInner = document.querySelector('.carousel-inner');//Carousel d'image à droite
-    const $carouselIndicators = document.querySelector('.carousel-indicators'); //Carousel indicator(tirets)
-    const $productCard = document.querySelector('#product-card'); //Carte produit 
-
+    const $productList = document.querySelector("#product-list");//Liste des produits à gauche
+    const $carouselInner = document.querySelector(".carousel-inner");//Carrousel d'image à droite
+    const $carouselIndicators = document.querySelector(".carousel-indicators"); //Carrousel indicateurs (tirets)
+    const $productCard = document.querySelector("#product-card"); //Carte produit 
 
     //Boucle permettant d'insérer tous les éléments du backend
     for (let i = 0; i < teddies.length; i++) {
         const teddie = teddies[i];
         console.log(teddies[i]);
 
-
-        //Stocker en local les éléments du backend
+        //Stocke en local les éléments du backend
         const saveToLocalStorage = () => {
             let data = localStorage.getItem("product_value_teddies")
             if (!data) {
@@ -38,7 +37,6 @@ function displayTeddies(teddies) {
             console.log(saveToLocalStorage);
         }
 
-        
         //Liste des produits à gauche 
         const $list = document.createElement("a");
         $list.setAttribute("aria-label", "Lien vers la page produit");
@@ -47,20 +45,20 @@ function displayTeddies(teddies) {
         $list.innerText = teddies[i].name;
         $productList.appendChild($list);
 
-        $list.addEventListener('click', saveToLocalStorage);//save
+        $list.addEventListener("click", saveToLocalStorage); //Stockage local
 
 
-        //Carousel================================================================
+        //Carrousel à droite =============================================================
 
-        //Carousel à droite 
-        const $carouselItem = document.createElement('div');
+        //Carrousel
+        const $carouselItem = document.createElement("div");
         $carouselItem.className = "carousel-item";
         if (i === 0) {
             $carouselItem.className += " active";
         }
         $carouselInner.appendChild($carouselItem);
 
-        //Images du carousel
+        //Images du carrousel
         const $imgCarousel = document.createElement("img");
         $imgCarousel.className = "d-block img-fluid";
         $imgCarousel.setAttribute("src", teddies[i].imageUrl);
@@ -68,8 +66,8 @@ function displayTeddies(teddies) {
         $carouselItem.appendChild($imgCarousel);
         $carouselInner.appendChild($carouselItem);
 
-        //Carousel indicator
-        const $carouselSlide = document.createElement('li');
+        //Carrousel indicateurs
+        const $carouselSlide = document.createElement("li");
         $carouselSlide.setAttribute("data-target", "#carouselExampleIndicators");
         $carouselSlide.setAttribute("data-slide-to", i);
         $carouselSlide.className = "bg-info";
@@ -77,17 +75,15 @@ function displayTeddies(teddies) {
             $carouselSlide.className = "active bg-info";
         }
         $carouselIndicators.appendChild($carouselSlide);
-
-        //Fin Carousel================================================================
-
+        //Fin Carrousel ================================================================
 
 
-        //Cartes articles======================================================
+        //Cartes articles ==============================================================
 
         //Images des articles avec liens
-        const $colLg4 = document.createElement('div');
+        const $colLg4 = document.createElement("div");
         $colLg4.className = "col-lg-4 col-md-6 mb-4";
-        const $cardH100 = document.createElement('div');
+        const $cardH100 = document.createElement("div");
         $cardH100.className = "card h-100"
         const $imgLink = document.createElement("a");
         $imgLink.setAttribute("aria-label", "Lien vers la page produit");
@@ -97,7 +93,7 @@ function displayTeddies(teddies) {
         $imgCard.setAttribute("src", teddies[i].imageUrl);
         $imgCard.setAttribute("alt", "Ourson");
 
-        $imgCard.addEventListener('click', saveToLocalStorage);//save
+        $imgCard.addEventListener("click", saveToLocalStorage); //Stockage local
 
         $productCard.appendChild($colLg4);
         $colLg4.appendChild($cardH100);
@@ -119,7 +115,7 @@ function displayTeddies(teddies) {
         $cardName.innerText = teddies[i].name;
         $cardTitle.appendChild($cardName);
 
-        $cardName.addEventListener('click', saveToLocalStorage);//save
+        $cardName.addEventListener("click", saveToLocalStorage); //Stockage local
 
         //Prix des articles
         const $price = document.createElement("h3");
@@ -136,10 +132,5 @@ function displayTeddies(teddies) {
         $cardFooter.appendChild($objectId);
 
         //FIN Cartes articles=============================================
-
-
     }
-
-
-
 }

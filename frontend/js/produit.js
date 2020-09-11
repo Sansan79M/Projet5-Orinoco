@@ -1,29 +1,29 @@
-//Récupération de l'API
+//Récupération du stockage local
 const teddie_id = JSON.parse(localStorage.getItem("product_value_teddies")).selectedId;
 
-ajaxGet('http://localhost:3000/api/teddies/' + teddie_id).then(function (result) {
+//Récupération de l'API
+ajaxGet("http://localhost:3000/api/teddies/" + teddie_id).then(function (result) {
     displayProductDetails(result);
 }).catch(function (error) {
     console.log(error);
     alert("Une erreur est survenue, veuillez réessayer dans un moment");
 });
 
+//Affichage dynamique de la page
 function displayProductDetails(productDetails) {
 
     //Récupération de l'élément parent de produit.html
-    //Corps de la page : main
-    const $main = document.querySelector('main');
-
+    const $main = document.querySelector("main"); //Corps de la page : main
 
     //H1 Titre de la page
-    const $h1 = document.createElement('h1');
+    const $h1 = document.createElement("h1");
     $h1.className = "font-weight-bold";
     $h1.innerText = productDetails.name + "\n\n";
     $main.appendChild($h1);
 
     //Div container : Page produit
-    const $productPage = document.createElement('div');
-    $productPage.setAttribute("id", "product-page")
+    const $productPage = document.createElement("div");
+    $productPage.setAttribute("id", "product-page");
     $productPage.className = "container";
     $main.appendChild($productPage);
 
@@ -63,18 +63,18 @@ function displayProductDetails(productDetails) {
     const $article = document.createElement("article");
     $section2.appendChild($article);
 
-    //Description produit <p>
+    //Description produit 
     const $description = document.createElement("p");
     $description.innerText = productDetails.description;
     $article.appendChild($description);
 
-    //Référence et prix : <h2 class="font-weight-bold">Réf. - Prix :  euros.</h2>
+    //Référence et prix 
     const $objectIdPrice = document.createElement("h2");
     $objectIdPrice.className = "font-weight-bold";
     $objectIdPrice.innerText = "Réf. " + productDetails._id + " - " + "Prix : " + (productDetails.price / 100) + " euros";
     $article.appendChild($objectIdPrice);
 
-    //Liens vers les conseils <p><a></a></p>
+    //Liens vers les conseils 
     const $conseil = document.createElement("p");
     $conseil.innerText = "\nPour l'entretien de vos peluches, veuillez consulter notre page";
     $article.appendChild($conseil);
@@ -82,12 +82,13 @@ function displayProductDetails(productDetails) {
     const $lienConseil = document.createElement("a");
     $lienConseil.className = "font-weight-bold text-info";
     $lienConseil.setAttribute("href", "conseils.html");
-    $lienConseil.innerText = " conseils."
+    $lienConseil.innerText = " conseils.";
     $conseil.appendChild($lienConseil);
 
     //Fin Article---------------------------------------------------
 
-    //Information du choix de la couleur
+
+    //Information du choix de la couleur et de la quantité
     const $info = document.createElement("p");
     $info.className = "font-weight-bold";
     $info.innerText = "\nChoisissez la couleur de votre peluche, ainsi que le nombre de peluche souhaité :\n";
@@ -103,7 +104,9 @@ function displayProductDetails(productDetails) {
     $inline.className = "form-inline";
     $form.appendChild($inline);
 
+
     //Menu déroulant couleur ==================================
+
     //Div couleur
     const $formGroup1 = document.createElement("div");
     $formGroup1.className = "form-group col-8 col-lg-3";
@@ -139,7 +142,9 @@ function displayProductDetails(productDetails) {
     //Fin Menu déroulant couleur ====================================
 
 
+
     //Menu déroulant quantité =======================================
+
     //Div quantité
     const $formGroup2 = document.createElement("div");
     $formGroup2.className = "form-group col-8 col-lg-3";
@@ -169,7 +174,9 @@ function displayProductDetails(productDetails) {
     //Fin Menu déroulant quantité =====================================
 
 
+
     //BOUTON Ajouter au panier=======================================
+
     //Div bouton
     const $col10 = document.createElement("div");
     $col10.className = "form-group col-8 col-lg-6";
@@ -184,52 +191,47 @@ function displayProductDetails(productDetails) {
     $col10.appendChild($AddToCartButton);
 
     //Ajouter un article dans la page panier
-    $AddToCartButton.addEventListener('click', (e) => {
+    $AddToCartButton.addEventListener("click", (e) => {
         e.preventDefault();
         let data = JSON.parse(localStorage.getItem("product_value_teddies"));
 
-        //Trouve l'index du produit dans le fichier JSON
-        const index = data.orders.findIndex(productTeddie => productTeddie._id == productDetails._id);
+        //Cherche si l'index et la couleur du produit sont déjà stockés
+        const index = data.orders.findIndex(teddy => teddy.color == $selectColors.value && teddie_id == productDetails._id);
 
-        //Si l'index n'est pas déjà dans le panier, ajouter l'article 
-        if (index == -1 || data.orders[index].color != $selectColors.value) {
+        //Si l'index avec la couleur n'est pas déjà présent, alors ajouter une nouvelle ligne produit avec la nouvelle couleur
+        if (index == -1) {
             data.orders.push({
-
                 imageUrl: productDetails.imageUrl,
                 _id: productDetails._id,
                 name: productDetails.name,
                 color: $selectColors.value,
                 quantity: $selectQuantity.value,
                 price: productDetails.price,
+
             });
+
         } else {
-           
-                const newColor = $selectColors.value;
-                data.orders[index].color = newColor;
+            //Sinon si l'index avec la couleur est déjà présent, modifier la quantité de la ligne existante 
+            const newQuantity = parseInt(data.orders[index].quantity) + parseInt($selectQuantity.value);
+            data.orders[index].quantity = newQuantity;
 
-                const newQuantity = parseInt(data.orders[index].quantity) + parseInt($selectQuantity.value);
-                data.orders[index].quantity = newQuantity;
-            
         }
-
         console.log(data);
-        //Stocker l'ajout de l'article
+
+        //Stocker en local, l'ajout de l'article
         localStorage.setItem("product_value_teddies", JSON.stringify(data));
 
-        //Demande de direction de page
-        if (confirm('Voulez-vous voir votre panier ?')) {
-            window.location.href = 'panier.html';
-        } else if (confirm('Voulez-vous retourner sur le catalogue ?')) {
-            window.location.href = 'index.html';
+        //Demande de redirection de page
+        if (confirm("Voulez-vous voir votre panier ?")) {
+            window.location.href = "panier.html";
+        } else if (confirm("Voulez-vous retourner sur le catalogue ?")) {
+            window.location.href = "index.html";
         }
     });
-
 
     //Fin BOUTON Ajouter au panier=======================================
 
     //Fin du formulaire----------------------------------------------------------------------------
 
     //FIN SECTION 2 : partie droite ======================================================================
-
-
 }
