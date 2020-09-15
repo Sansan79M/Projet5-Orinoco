@@ -186,8 +186,8 @@ function displayProductDetails(productDetails) {
     const $AddToCartButton = document.createElement("button");
     $AddToCartButton.className = "btn btn-info";
     $AddToCartButton.setAttribute("aria-label", "Bouton ajouter au panier");
-    $AddToCartButton.setAttribute("type", "submit"),
-        $AddToCartButton.innerText = "Ajouter dans votre panier";
+    $AddToCartButton.setAttribute("type", "submit");
+    $AddToCartButton.innerText = "Ajouter dans votre panier";
     $col10.appendChild($AddToCartButton);
 
     //Ajouter un article dans la page panier
@@ -222,7 +222,7 @@ function displayProductDetails(productDetails) {
         localStorage.setItem("product_value_teddies", JSON.stringify(data));
 
         //Demande de redirection de page
-        if (confirm("Voulez-vous voir votre panier ?")) {
+        if (confirm("Votre article a été ajouté dans votre panier ! \n\nVoulez-vous voir votre panier ?")) {
             window.location.href = "panier.html";
         } else if (confirm("Voulez-vous retourner sur le catalogue ?")) {
             window.location.href = "index.html";

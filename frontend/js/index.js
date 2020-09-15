@@ -6,6 +6,7 @@ ajaxGet("http://localhost:3000/api/teddies").then(function (result) {
     alert("Une erreur est survenue, veuillez réessayer dans un moment");
 });
 
+
 //Affichage dynamique de la page
 function displayTeddies(teddies) {
 
@@ -40,7 +41,7 @@ function displayTeddies(teddies) {
         //Liste des produits à gauche 
         const $list = document.createElement("a");
         $list.setAttribute("aria-label", "Lien vers la page produit");
-        $list.setAttribute("href", "produit.html");
+        $list.setAttribute("href", "produit.html?" + teddie.name); //Affiche le nom concerné dans l'URL
         $list.className = "list-group-item";
         $list.innerText = teddies[i].name;
         $productList.appendChild($list);
@@ -64,7 +65,7 @@ function displayTeddies(teddies) {
         $imgCarousel.setAttribute("src", teddies[i].imageUrl);
         $imgCarousel.setAttribute("alt", "Ourson");
         $carouselItem.appendChild($imgCarousel);
-        $carouselInner.appendChild($carouselItem);
+
 
         //Carrousel indicateurs
         const $carouselSlide = document.createElement("li");
@@ -83,22 +84,25 @@ function displayTeddies(teddies) {
         //Images des articles avec liens
         const $colLg4 = document.createElement("div");
         $colLg4.className = "col-lg-4 col-md-6 mb-4";
+        $productCard.appendChild($colLg4);
+
         const $cardH100 = document.createElement("div");
         $cardH100.className = "card h-100"
+        $colLg4.appendChild($cardH100);
+
         const $imgLink = document.createElement("a");
         $imgLink.setAttribute("aria-label", "Lien vers la page produit");
-        $imgLink.setAttribute("href", "produit.html");
+        $imgLink.setAttribute("href", "produit.html?" + teddie.name); //Affiche le nom concerné dans l'URL
+        $cardH100.appendChild($imgLink);
+
         const $imgCard = document.createElement("img");
         $imgCard.className = "card-img-top";
         $imgCard.setAttribute("src", teddies[i].imageUrl);
         $imgCard.setAttribute("alt", "Ourson");
+        $imgLink.appendChild($imgCard);
 
         $imgCard.addEventListener("click", saveToLocalStorage); //Stockage local
 
-        $productCard.appendChild($colLg4);
-        $colLg4.appendChild($cardH100);
-        $cardH100.appendChild($imgLink);
-        $imgLink.appendChild($imgCard);
 
         //Nom des articles
         const $cardBody = document.createElement("div");
@@ -111,7 +115,7 @@ function displayTeddies(teddies) {
 
         const $cardName = document.createElement("a");
         $cardName.setAttribute("aria-label", "Lien vers la page produit");
-        $cardName.setAttribute("href", "produit.html");
+        $cardName.setAttribute("href", "produit.html?" + teddie.name); //Affiche le nom concerné dans l'URL
         $cardName.innerText = teddies[i].name;
         $cardTitle.appendChild($cardName);
 
@@ -125,10 +129,11 @@ function displayTeddies(teddies) {
         //Références des articles
         const $cardFooter = document.createElement("div");
         $cardFooter.className = "card-footer";
+        $cardH100.appendChild($cardFooter);
+
         const $objectId = document.createElement("small");
         $objectId.className = "text-muted";
         $objectId.innerText = "Réf. " + teddies[i]._id;
-        $cardH100.appendChild($cardFooter);
         $cardFooter.appendChild($objectId);
 
         //FIN Cartes articles=============================================
